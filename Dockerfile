@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /var/run/sshd /var/log/supervisor /var/run/vsftpd/empty
 
 # Configuracao do FTP anônimo apontando para a raiz padrao do vsftpd no Ubuntu
+COPY vsftpd.conf /etc/vsftpd.conf
+
 RUN sed -i 's/anonymous_enable=NO/anonymous_enable=YES/' /etc/vsftpd.conf && \
     mkdir -p /var/ftp/pub && \
     chown root:root /var/ftp && \
@@ -23,7 +25,13 @@ RUN sed -i 's/anonymous_enable=NO/anonymous_enable=YES/' /etc/vsftpd.conf && \
     echo "allow_writeable_chroot=YES" >> /etc/vsftpd.conf && \
     echo "anon_root=/var/ftp" >> /etc/vsftpd.conf
 
+RUN echo "pasv_enable=YES" >> /etc/vsftpd.conf && \
+    echo "pasv_min_port=40000" >> /etc/vsftpd.conf && \
+    echo "pasv_max_port=40005" >> /etc/vsftpd.conf && \
+    echo "pasv_address=127.0.0.1" >> /etc/vsftpd.conf
+
 COPY hogwarts.txt /var/ftp/pub/hogwarts.txt
+COPY Sala_Sonserina.txt /var/ftp/pub/Sala_Sonserina.txt
 
 # criacao do usuario Sirius
 RUN useradd -m -s /bin/bash Sirius && \
