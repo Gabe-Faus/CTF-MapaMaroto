@@ -19,16 +19,16 @@ Prepare-se para investigar, explorar e colocar suas habilidades à prova. Afinal
 Para iniciar a máquina do CTF, siga os passos abaixo:
 
 1. Clone e acesse o diretório
-bash
+bash:
 mkdir ctf-mapamaroto && cd ctf-mapamaroto
 
 2. Baixe o arquivo de configuração
-bash
+bash: 
 curl -sSL https://raw.githubusercontent.com/Gabe-Faus/CTF-MapaMaroto/main/deploy/docker-compose.yml -o docker-compose.yml
 
 3. Inicie o ambiente
-bash
-docker compose up -d
+bash:
+docker-compose up -d
 
 
 Pronto! O ambiente estará em execução.
