@@ -40,6 +40,7 @@ RUN useradd -m -s /bin/bash Sirius && \
 
 # Criacao do diretorio images
 RUN mkdir -p /home/Sirius/images
+RUN mkdir -p /home/Sirius/data
 
 #SSh por autenticacao por senha 
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
@@ -49,10 +50,18 @@ RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/
 COPY Sirius.jpeg /home/Sirius/images/Sirius.jpeg
 COPY Marotos.jpeg /root/Marotos.jpeg
 
+# colocando imagnes e textos
+COPY Harry.jpeg /home/Sirius/images/Harry.jpeg
+COPY Dobby.jpeg /home/Sirius/images/Dobby.jpeg
+
+COPY caminho.txt /home/Sirius/data/caminho.txt
+COPY dobby.txt /home/Sirius/data/dobby.txt
+
 # ajustando as permissoes de imagem
 RUN chown -R Sirius:Sirius /home/Sirius/images
 
-# Aplicacao web, forcando o /etc/hosts
+# Aplicacao web: o vhost so responde a pedropettigrew.thm
+# (o jogador precisa adicionar "IP pedropettigrew.thm" no /etc/hosts)
 COPY web/ /var/www/html/
 COPY ctf.conf /etc/apache2/sites-available/ctf.conf
 
@@ -63,7 +72,7 @@ RUN rm -rf /var/www/html/*
 COPY web/ /var/www/html/
 COPY ctf.conf /etc/apache2/sites-available/ctf.conf
 
-RUN a2enmod php8.1 && a2dissite 000-default.conf && a2ensite ctf.conf
+RUN a2enmod php8.1 rewrite && a2dissite 000-default.conf && a2ensite ctf.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
