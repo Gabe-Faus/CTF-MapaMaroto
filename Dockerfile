@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     openssh-server \
     vsftpd \
     supervisor \
+    libapache2-mod-php \
     net-tools\
     && rm -rf /var/lib/apt/lists/*
 
@@ -62,7 +63,7 @@ RUN rm -rf /var/www/html/*
 COPY web/ /var/www/html/
 COPY ctf.conf /etc/apache2/sites-available/ctf.conf
 
-RUN a2dissite 000-default.conf && a2ensite ctf.conf
+RUN a2enmod php8.1 && a2dissite 000-default.conf && a2ensite ctf.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

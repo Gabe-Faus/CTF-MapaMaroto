@@ -66,11 +66,18 @@
     </style>
 </head>
 <body>
-    <form class="login" action="" method="POST">
+    <form class="login" action="login.php" method="POST">
         <h1>Rato, qual é a sua senha?</h1>
-        <!-- Dica para os Marotos: /capa_da_invisibilidade.txt -->
+        <!-- Dica para os Marotos: /Capa_da_invisibilidade.txt -->
+        <p id="erro" style="display:none; color:#ff6b6b; margin:0 0 12px;">Senha incorreta. Tente novamente.</p>
         <input type="password" name="password" class="campo-senha" placeholder="Digite a senha..." required>
         <input type="submit" value="Juro solenemente não fazer nada de bom" class="botao">
     </form>
+
+    <script>
+        if (new URLSearchParams(window.location.search).has('erro')) {
+            document.getElementById('erro').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
